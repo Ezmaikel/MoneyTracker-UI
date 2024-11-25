@@ -1,0 +1,10 @@
+^D:\FLUTTER\MONEYTRACKER\BUILD\WINDOWS\X64\CMAKEFILES\2B01547B01C1CA14C2BF5DB3C663FA80\INSTALL_FORCE.RULE
+setlocal
+cd .
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd

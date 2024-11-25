@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:moneytracker/View/widgets/header_card.dart';
+import 'package:moneytracker/controller/transactions_provider.dart';
+import 'package:provider/provider.dart';
 
 class HomeHeader extends StatelessWidget {
   const HomeHeader({
@@ -9,6 +11,11 @@ class HomeHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
+    final provider = Provider.of<TransactionsProvider>(context);
+    final balance = provider.getBalance();
+    final incomes = provider.getTotalIncomes();
+    final expenses = provider.getTotalExpenses();
+
     return SizedBox(
       width: double.infinity,
       child: Column(
@@ -27,30 +34,30 @@ class HomeHeader extends StatelessWidget {
                 fontWeight: FontWeight.bold,
                 color: Colors.white.withOpacity(0.5),
               )),
-          Text('\$ 1,000.000',
+          Text('\$ ${balance.toStringAsFixed(2)}',
               style: textTheme.headlineLarge!.copyWith(
                 fontWeight: FontWeight.bold,
                 color: Colors.white,
               )),
-          const Padding(
-            padding: EdgeInsets.all(20),
+          Padding(
+            padding: const EdgeInsets.all(20),
             child: Row(
               children: [
                 HeaderCard(
-                  title: 'Income',
-                  ammount: 1000.00,
-                  icon: Icon(
+                  title: 'Incomes',
+                  amount: incomes,
+                  icon: const Icon(
                     Icons.attach_money,
                     color: Colors.teal,
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   width: 12,
                 ),
                 HeaderCard(
-                  title: 'Expense',
-                  ammount: -500.00,
-                  icon: Icon(
+                  title: 'Expenses',
+                  amount: expenses,
+                  icon: const Icon(
                     Icons.money_off,
                     color: Colors.red,
                   ),

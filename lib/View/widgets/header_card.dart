@@ -2,19 +2,22 @@ import 'package:flutter/material.dart';
 
 class HeaderCard extends StatelessWidget {
   final String title;
-  final double ammount;
+  final double amount;
   final Widget icon;
 
   const HeaderCard({
     super.key,
     required this.title,
-    required this.ammount,
+    required this.amount,
     required this.icon,
   });
 
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
+    final formattedAmount = amount < 0
+        ? '-\$ ${amount.abs().toStringAsFixed(2)}'
+        : '\$ ${amount.toStringAsFixed(2)}';
 
     return Expanded(
       child: Card(
@@ -38,7 +41,7 @@ class HeaderCard extends StatelessWidget {
               ),
               const SizedBox(height: 8),
               Text(
-                '\$ $ammount',
+                formattedAmount,
                 style: textTheme.titleLarge,
               ),
             ],

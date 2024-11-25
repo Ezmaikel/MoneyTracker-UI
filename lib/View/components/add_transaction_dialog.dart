@@ -1,6 +1,9 @@
 import 'package:currency_text_input_formatter/currency_text_input_formatter.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:moneytracker/controller/transactions_provider.dart';
+import 'package:moneytracker/model/transaction.dart';
+import 'package:provider/provider.dart';
 
 class AddTransactionDialog extends StatefulWidget {
   const AddTransactionDialog({super.key});
@@ -11,6 +14,10 @@ class AddTransactionDialog extends StatefulWidget {
 
 class _AddTransactionDialogState extends State<AddTransactionDialog> {
   int? typeIndex = 0;
+  TransactionType type = TransactionType.income;
+  double amount = 0;
+  String description = '';
+
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
@@ -42,6 +49,9 @@ class _AddTransactionDialogState extends State<AddTransactionDialog> {
               onValueChanged: (value) {
                 setState(() {
                   typeIndex = value;
+                  type = value == 0
+                      ? TransactionType.income
+                      : TransactionType.expense;
                 });
               }),
           const SizedBox(
@@ -58,10 +68,20 @@ class _AddTransactionDialogState extends State<AddTransactionDialog> {
             ],
             textAlign: TextAlign.center,
             decoration: const InputDecoration.collapsed(
-                hintText: '\$ 0.00', hintStyle: TextStyle(color: Colors.grey)),
+              hintText: '\$ 0.00',
+              hintStyle: TextStyle(color: Colors.grey),
+            ),
             keyboardType: TextInputType.number,
             style: const TextStyle(fontSize: 20),
             autofocus: true,
+            onChanged: (value) {
+              final valueWithoutDollarSign = value.replaceAll('\$', '');
+              final valueWithoutCommas =
+                  valueWithoutDollarSign.replaceAll(',', '');
+              if (valueWithoutCommas.isNotEmpty) {
+                amount = double.parse(valueWithoutCommas);
+              }
+            },
           ),
           const SizedBox(
             height: 20,
@@ -70,18 +90,31 @@ class _AddTransactionDialogState extends State<AddTransactionDialog> {
             'DESCRIPTION',
             style: textTheme.bodySmall!.copyWith(color: Colors.teal),
           ),
-          const TextField(
+          TextField(
             textAlign: TextAlign.center,
-            decoration: InputDecoration.collapsed(
+            decoration: const InputDecoration.collapsed(
                 hintText: 'Enter a description here',
                 hintStyle: TextStyle(color: Colors.grey)),
             keyboardType: TextInputType.text,
+            onChanged: (value) {
+              description = value;
+            },
           ),
           const SizedBox(height: 20),
           SizedBox(
             width: 250,
             child: ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  final transaction = Transaction(
+                    type: type,
+                    amount: type == TransactionType.expense ? -amount : amount,
+                    description: description,
+                  );
+                  Provider.of<TransactionsProvider>(context, listen: false)
+                      .addTransaction(transaction);
+
+                  Navigator.pop(context);
+                },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.teal,
                 ),

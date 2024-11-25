@@ -1,0 +1,28 @@
+^D:\FLUTTER\MONEYTRACKER\BUILD\WINDOWS\X64\CMAKEFILES\C23AD2B48F0C176D22FBB420B8BB3B44\FLUTTER_WINDOWS.DLL.RULE
+setlocal
+"C:\Program Files\Microsoft Visual Studio\2022\Professional\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -E env FLUTTER_ROOT=C:\Users\goram\flutter PROJECT_DIR=D:\FLUTTER\moneytracker FLUTTER_ROOT=C:\Users\goram\flutter FLUTTER_EPHEMERAL_DIR=D:\FLUTTER\moneytracker\windows\flutter\ephemeral PROJECT_DIR=D:\FLUTTER\moneytracker FLUTTER_TARGET=D:\FLUTTER\moneytracker\lib\main.dart DART_OBFUSCATION=false TRACK_WIDGET_CREATION=true TREE_SHAKE_ICONS=false PACKAGE_CONFIG=D:\FLUTTER\moneytracker\.dart_tool\package_config.json C:/Users/goram/flutter/packages/flutter_tools/bin/tool_backend.bat windows-x64 Debug
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+^D:\FLUTTER\MONEYTRACKER\BUILD\WINDOWS\X64\CMAKEFILES\8F59BD415AA3D161BED6673F7ACD3032\FLUTTER_ASSEMBLE.RULE
+setlocal
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+^D:\FLUTTER\MONEYTRACKER\WINDOWS\FLUTTER\CMAKELISTS.TXT
+setlocal
+"C:\Program Files\Microsoft Visual Studio\2022\Professional\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -SD:/FLUTTER/moneytracker/windows -BD:/FLUTTER/moneytracker/build/windows/x64 --check-stamp-file D:/FLUTTER/moneytracker/build/windows/x64/flutter/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd

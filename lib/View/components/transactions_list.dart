@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:moneytracker/controller/transactions_provider.dart';
+import 'package:moneytracker/model/transaction.dart';
+import 'package:provider/provider.dart';
 
 class TransactionsList extends StatelessWidget {
   const TransactionsList({
@@ -7,38 +10,37 @@ class TransactionsList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final Transactions =
+        Provider.of<TransactionsProvider>(context).transactions;
+
     return Expanded(
       child: Container(
           decoration: const BoxDecoration(
             color: Colors.white,
           ),
-          child: ListView(
-            children: const [
-              ListTile(
-                leading: Icon(
-                  Icons.attach_money,
-                  color: Colors.teal,
-                ),
-                title: Text('Income'),
-                subtitle: Text('Salary'),
+          child: ListView.builder(
+            itemCount: Transactions.length,
+            itemBuilder: (context, index) {
+              final transaction = Transactions[index];
+              final type = transaction.type == TransactionType.income
+                  ? 'Income'
+                  : 'Expense';
+              final value = transaction.type == TransactionType.expense
+                  ? '-\$ ${transaction.amount.abs().toStringAsFixed(2)}'
+                  : '\$ ${transaction.amount.toStringAsFixed(2)}';
+
+              final color = transaction.type == TransactionType.expense
+                  ? Colors.red
+                  : Colors.teal;
+              return ListTile(
+                title: Text(transaction.description),
+                subtitle: Text(type),
                 trailing: Text(
-                  '\$ 1,000.00',
-                  style: TextStyle(fontSize: 14),
+                  value,
+                  style: TextStyle(fontSize: 14, color: color),
                 ),
-              ),
-              ListTile(
-                leading: Icon(
-                  Icons.attach_money,
-                  color: Colors.red,
-                ),
-                title: Text('Expense'),
-                subtitle: Text('Rent'),
-                trailing: Text(
-                  '- \$ 500.00',
-                  style: TextStyle(fontSize: 14),
-                ),
-              ),
-            ],
+              );
+            },
           )),
     );
   }
